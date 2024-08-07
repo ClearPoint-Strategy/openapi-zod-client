@@ -21,10 +21,16 @@ export const getHandlebars = () => {
         // @ts-expect-error
         return options.inverse(this);
     });
+    instance.registerHelper("ifNotContains", function (needle: string, haystack: string, options: HelperOptions) {
+        needle = instance.escapeExpression(needle);
+        haystack = instance.escapeExpression(haystack);
+        // @ts-expect-error
+        return haystack.indexOf(needle) > -1 ? options.inverse(this) : options.fn(this);
+    });
     instance.registerHelper("toCamelCase", function (input: string) {
         // Check if input string is already in camelCase
         if (/^[a-z][a-zA-Z0-9]*$/.test(input)) {
-            return input
+            return input;
         }
 
         const words = input.split(/[\s_-]/);
